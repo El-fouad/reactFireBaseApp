@@ -7,6 +7,8 @@ const SignUp = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMess, setErorMess] = useState("");
+
   const handlSignup = (e) => {
     e.preventDefault();
     createUserWithEmailAndPassword(auth, email, password)
@@ -21,13 +23,18 @@ const SignUp = () => {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorMessage);
         console.log(errorCode);
+        setErorMess(errorCode);
       });
   };
   return (
     <div>
       <form onSubmit={handlSignup}>
+        {errorMess && (
+          <div className=" py-2 px-1 bg-red-400 text-white text-lg font-bold">
+            {errorMess}
+          </div>
+        )}
         <div className="mb-6">
           <label
             htmlFor="email"
@@ -68,7 +75,6 @@ const SignUp = () => {
               type="checkbox"
               value=""
               className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-              required
             />
           </div>
           <label
